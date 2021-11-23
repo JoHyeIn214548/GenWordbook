@@ -29,13 +29,13 @@ for i, sentence in enumerate(sentence_list):
     ######################
     # 2.단어만 추출(전처리) #
     ######################
+    # conda install -c anaconda nltk
     # 자연어 처리 => NLTK
     # 2-1.토큰화(Tokenization)
     token_list = nltk.word_tokenize(clean_sentence)
     print('2 >> {}'.format(token_list))
 
     # 2-2.불용어(StopWord) 제거
-    # stopword_list = [',', 'm', '?', 's', '.']
     stopwords = nltk.corpus.stopwords.words('english')
     stopwords.append('..')
     stopwords.append('...')
@@ -49,34 +49,49 @@ for i, sentence in enumerate(sentence_list):
     print('3 >>> {}'.format(clean_list))
 
     # 2-3. Length 1 이하인 token 제거
-    # len_filter_list = []
-    # for token in clean_list:
-    #     if len(token) > 1:
-    #         len_filter_list.append(token)
-
     # lambda식을 활용한 Code
-    # 필터나 제거, 이전 거 반복할 때만 사용가능
     len_filter_list = list(filter(lambda x: len(x) > 1, clean_list))
-    print ('4 >>>> {}'.format(len_filter_list))
+    print('4 >>>> {}'.format(len_filter_list))
 
     # 2-4.(')포함 된 Token 제거
     clean_filter_list = list(filter(lambda x: "'" not in x, len_filter_list))
     print('5 >>>>> {}'.format(clean_filter_list))
-    words.extend(clean_filter_list)  # list 안에 list가 되어있으므로 append가 아니라 extend
+
 
     # 2-5.('-')포함 된 Token 제거
     clean_list = list(filter(lambda x: "-" not in x, clean_filter_list))
     print('6 >>>>>> {}'.format(clean_list))
     words.extend(clean_list)
 
-print(words)
-
-
-
 
 #############################
 # 3.빈도수 순으로 나열 및 시각화 #
 #############################
+print(words)
+print('==========================================================================')
+# 전체 단어 수 출력
+print('Total word count: {}'.format(len(words)))
+
+# 중복 단어 제거 후 단어 수
+print('word count after removing duplicate words: {}'.format(len(list(set(words)))))
+
+# 중복 단어 제거 된 wordbook list(set([]))
+unique_words = sorted(list(set(words)))
+print(unique_words)
+
+# 빈도수가 높은 단어 1위~20위 출력
+text = nltk.Text(words, name='NMSC') # 중복 제거 전 단어장 입력으로 사용
+#pprint.pprint(text.vocab().most_common(20))
+
+# list   -> []
+# dict   -> {key : value}
+# tuple  -> (a, b, c) == a, b, c
+# set    -> 집합(중복된 단어 제거)
+# set()을 활용한 중복단어 제거!(기말고사 가능성)
+
+
+
+
 
 ###################################
 # 4.다음 영어사전 단어정보 수집 및 매칭 #
