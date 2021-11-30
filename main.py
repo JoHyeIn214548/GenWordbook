@@ -137,6 +137,20 @@ col_names = ['word', 'mean_1', 'mean_2', 'mean_3', 'mean_4', 'mean_5']
 df_dict = pd.DataFrame(total_dict_list, columns=col_names)
 df_dict.to_excel('words.xlsx', index=False)
 
+
 #######################
 # 6. 시각화(WorldCloud)#
 #######################
+# mask 만들기
+circle_mask = np.array(Image.open("./imgs/circle.png"))
+cnu_mask = np.array(Image.open("./imgs/cnu_text.png"))
+wc = WordCloud(mask=cnu_mask,
+               background_color='white',
+               width=500,
+               height=500,
+               max_words=200,
+               max_font_size=100)
+
+fd_names = nltk.FreqDist(words)
+wc.generate_from_frequencies(fd_names)
+wc.to_file('wordsloud2.png')
